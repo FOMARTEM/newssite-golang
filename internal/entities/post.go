@@ -6,6 +6,5 @@ type Post struct {
 	Text       string `json:"text"`
 	CreateDate string `json:"createdate"`
 	UpdateDate string `json:"updatedate"`
-	EditDate   string `json:"editdate"`
 	UserId     int    `json:"userid"`
 }
