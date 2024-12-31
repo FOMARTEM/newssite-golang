@@ -139,23 +139,14 @@ func (p *Provider) SelectUserPasswordByMail(mail string) (string, error) {
 
 }
 
-// Функции с таблицей admins
-// создание админа
-func (p *Provider) InsertAdmin(id int) error {
+func (p *Provider) SetUserAdminRules(mail string, admin bool) error {
 
 }
 
-// удаление админа
-func (p *Provider) DeleteAdmin(id int) error {
+func (p *Provider) CheckUserAdminById(id int) (*entities.User, error) {
 
 }
 
-// получение админа по user_id
-func (p *Provider) SelectAdmin(user_id int) (entities.Admin, error) {
-
-}
-
-// получение всех админов
-func (p *Provider) SelectAdmins() ([]*entities.Admin, error) {
+func (p *Provider) CheckUserAdminByEmail(email string) (*entities.User, error) {
 
 }
