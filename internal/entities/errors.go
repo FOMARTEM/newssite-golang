@@ -1,21 +1,21 @@
 package entities
 
-import error
+import "errors"
 
 var (
 	//ошибки постов
-	ErrPostNotFound = error.new("post not found")
-	
-	ErrPostNameConflict = error.new("post name conflict")
+	ErrPostNotFound = errors.New("post not found")
+
+	ErrPostNameConflict = errors.New("post name conflict")
 
 	//ошибки пользователя
-	ErrUserNotFound = error.new("user not found")
+	ErrUserNotFound = errors.New("user not found")
 
-	ErrUserAlreadyExist = error.new("user already exists")
-	
-	ErrUserNotAdmin	= error.new("user not admin")
-	
-	ErrUserNameConflict = error.new("user name conflict")
-	ErrUserEmailConflict = error.new("user email conflict")
-	ErrUserPasswordConflict = error.new("user password conflict")
+	ErrUserAlreadyExist = errors.New("user already exists")
+
+	ErrUserNotAdmin = errors.New("user not admin")
+
+	ErrUserNameConflict     = errors.New("user name conflict")
+	ErrUserEmailConflict    = errors.New("user email conflict")
+	ErrUserPasswordConflict = errors.New("user password conflict")
 )
