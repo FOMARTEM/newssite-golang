@@ -234,11 +234,40 @@ func (p *Provider) UpdateUserAdminRulesByEmail(email string, admin bool) error {
 }
 
 // проверка статуса admin по id
-func (p *Provider) CheckUserIsAdminById(id int) (bool, error) {
+func (p *Provider) CheckUserIsAdminById(id int) (*bool, error) {
+	var admin bool
+
+	err := p.conn.QueryRow(
+		`SELECT admin FROM public.users WHERE id = $1`,
+		id,
+	).Scan(&admin)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &admin, nil
 
 }
 
 // проверка статуса admin по email
-func (p *Provider) CheckUserIsAdminByEmail(email string) (bool, error) {
+func (p *Provider) CheckUserIsAdminByEmail(email string) (*bool, error) {
+	var admin bool
 
+	err := p.conn.QueryRow(
+		`SELECT admin FROM public.users WHERE email = $1`,
+		email,
+	).Scan(&admin)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &admin, nil
 }
