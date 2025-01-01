@@ -30,7 +30,7 @@ func (p *Provider) InsertPost(post entities.Post) (*entities.Post, error) {
 }
 
 // поиск поста по id
-func (p *Provider) FindPostById(id int) (*entities.Post, error) {
+func (p *Provider) SelectPostById(id int) (*entities.Post, error) {
 	var post entities.Post
 	err := p.conn.QueryRow(
 		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.post WHERE id = $1",
@@ -164,7 +164,7 @@ func (p *Provider) SelectUserByEmail(email string) (*entities.User, error) {
 }
 
 // получение password по email
-func (p *Provider) SelectUserPasswordByMail(email string) (*string, error) {
+func (p *Provider) SelectUserPasswordByEmail(email string) (*string, error) {
 	var password string
 
 	err := p.conn.QueryRow(
