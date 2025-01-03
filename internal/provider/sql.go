@@ -233,6 +233,19 @@ func (p *Provider) UpdateUserAdminRulesByEmail(email string, admin bool) error {
 	return nil
 }
 
+func (p *Provider) UpdateUserToken(user entities.User) error {
+	_, err := p.conn.Query(
+		`UPDATE public.users SET token = $1 WHERE id = $2`,
+		user.Token, user.ID,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // проверка статуса admin по id
 func (p *Provider) CheckUserIsAdminById(id int) (*bool, error) {
 	var admin bool
@@ -270,4 +283,22 @@ func (p *Provider) CheckUserIsAdminByEmail(email string) (*bool, error) {
 	}
 
 	return &admin, nil
+}
+
+func (p *Provider) CheckUserToken(id int) (*string, error) {
+	var token string
+
+	err := p.conn.QueryRow(
+		`SELECT token FROM public.users WHERE id = $1`,
+		id,
+	).Scan(&token)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &token, nil
 }
