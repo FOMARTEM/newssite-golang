@@ -130,9 +130,9 @@ func (p *Provider) SelectUserById(id int) (*entities.User, error) {
 	var user entities.User
 
 	err := p.conn.QueryRow(
-		`SELECT id, name, email, password, admin FROM public.users WHERE id = $1`,
+		`SELECT id, name, email, password, admin, token FROM public.users WHERE id = $1`,
 		id,
-	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Admin)
+	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Admin, &user.Token)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -180,6 +180,24 @@ func (p *Provider) SelectUserPasswordByEmail(email string) (*string, error) {
 	}
 
 	return &password, nil
+}
+
+func (p *Provider) SelectUserToken(id int) (*string, error) {
+	var token string
+
+	err := p.conn.QueryRow(
+		`SELECT token FROM public.users WHERE id = $1`,
+		id,
+	).Scan(&token)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &token, nil
 }
 
 // редактирование пользователя
@@ -283,22 +301,4 @@ func (p *Provider) CheckUserIsAdminByEmail(email string) (*bool, error) {
 	}
 
 	return &admin, nil
-}
-
-func (p *Provider) CheckUserToken(id int) (*string, error) {
-	var token string
-
-	err := p.conn.QueryRow(
-		`SELECT token FROM public.users WHERE id = $1`,
-		id,
-	).Scan(&token)
-
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	return &token, nil
 }
