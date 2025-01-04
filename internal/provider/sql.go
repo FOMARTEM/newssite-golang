@@ -182,24 +182,6 @@ func (p *Provider) SelectUserPasswordByEmail(email string) (*string, error) {
 	return &password, nil
 }
 
-func (p *Provider) SelectUserToken(id int) (*string, error) {
-	var token string
-
-	err := p.conn.QueryRow(
-		`SELECT token FROM public.users WHERE id = $1`,
-		id,
-	).Scan(&token)
-
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	return &token, nil
-}
-
 // редактирование пользователя
 // все данные
 func (p *Provider) UpdateUserById(user entities.User) (*entities.User, error) {
@@ -242,19 +224,6 @@ func (p *Provider) UpdateUserAdminRulesByEmail(email string, admin bool) error {
 	_, err := p.conn.Query(
 		`UPDATE public.users SET admin = $1 WHERE email = $2`,
 		admin, email,
-	)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (p *Provider) UpdateUserToken(user entities.User) error {
-	_, err := p.conn.Query(
-		`UPDATE public.users SET token = $1 WHERE id = $2`,
-		user.Token, user.ID,
 	)
 
 	if err != nil {
