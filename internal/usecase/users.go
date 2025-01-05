@@ -92,6 +92,7 @@ func (u *Usecase) UpdateUser(user entities.User) (*entities.User, error) {
 	return newUser, nil
 }
 
+// DeleteUserById
 func (u *Usecase) DeleteUserById(id int) error {
 	err := u.p.DeleteUserById(id)
 
@@ -102,6 +103,7 @@ func (u *Usecase) DeleteUserById(id int) error {
 	return nil
 }
 
+// DeleteUserByEmail
 func (u *Usecase) DeleteUserByEmail(email string) error {
 	err := u.p.DeleteUserByEmail(email)
 
