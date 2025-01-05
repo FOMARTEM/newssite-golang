@@ -18,4 +18,6 @@ var (
 	ErrUserNameConflict     = errors.New("user name conflict")
 	ErrUserEmailConflict    = errors.New("user email conflict")
 	ErrUserPasswordConflict = errors.New("user password conflict")
+
+	ErrUserLoginConflict = errors.New("email or password wrong")
 )
