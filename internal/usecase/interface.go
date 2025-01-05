@@ -1,6 +1,6 @@
 package usecase
 
-import "../entities"
+import "github.com/FOMARTEM/newssite-golang/internal/entities"
 
 type Provider interface {
 	//работа с post
@@ -26,4 +26,7 @@ type Provider interface {
 
 	CheckUserIsAdminById(id int) (*bool, error)
 	CheckUserIsAdminByEmail(email string) (*bool, error)
+
+	DeleteUserById(id int) error
+	DeleteUserByEmail(email string) error
 }
