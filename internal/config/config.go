@@ -10,7 +10,7 @@ type Config struct {
 }
 
 type api struct {
-	MaxMessageSize int `yaml:"max_message_size"`
+	SecretKey int `yaml:"secret_key"`
 }
 
 type usecase struct {
