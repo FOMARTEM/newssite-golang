@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"../entities"
+	"github.com/FOMARTEM/newssite-golang/internal/entities"
 )
 
 // Функции с таблицей post
@@ -270,4 +270,30 @@ func (p *Provider) CheckUserIsAdminByEmail(email string) (*bool, error) {
 	}
 
 	return &admin, nil
+}
+
+func (p *Provider) DeleteUserById(id int) error {
+	_, err := p.conn.Exec("DELETE FROM users WHERE id = $1", id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return entities.ErrUserNotFound
+		}
+
+		return err
+	}
+
+	return nil
+}
+
+func (p *Provider) DeleteUserByEmail(email string) error {
+	_, err := p.conn.Exec("DELETE FROM users WHERE email = $1", email)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return entities.ErrUserNotFound
+		}
+
+		return err
+	}
+
+	return nil
 }
