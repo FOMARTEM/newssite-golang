@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS public.users
     email character varying(255) COLLATE pg_catalog."default" NOT NULL,
     password character varying(255) COLLATE pg_catalog."default" NOT NULL,
     admin boolean NOT NULL DEFAULT false,
-    token character varying NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id),
     CONSTRAINT users_email_key UNIQUE (email)
 );
