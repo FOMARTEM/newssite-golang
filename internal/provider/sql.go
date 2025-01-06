@@ -108,8 +108,8 @@ func (p *Provider) InsertUser(user entities.User) (*entities.User, error) {
 	var id int
 
 	err := p.conn.QueryRow(
-		`INSERT INTO public.users (name, email, password, admin) VALUES ($1, $2, $3, $4);`,
-		user.Name, user.Email, user.Password,
+		`INSERT INTO public.users (name, email, password, admin) VALUES ($1, $2, $3, $4) RETURNING id`,
+		user.Name, user.Email, user.Password, false,
 	).Scan(&id)
 
 	if err != nil {
