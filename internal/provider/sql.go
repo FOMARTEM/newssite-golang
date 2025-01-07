@@ -33,7 +33,7 @@ func (p *Provider) InsertPost(post entities.Post) (*entities.Post, error) {
 func (p *Provider) SelectPostById(id int) (*entities.Post, error) {
 	var post entities.Post
 	err := p.conn.QueryRow(
-		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.post WHERE id = $1",
+		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.posts WHERE id = $1",
 		id,
 	).Scan(&post.ID, &post.Name, &post.Text, &post.CreateDate, &post.UpdateDate, &post.UserId)
 	if err != nil {
@@ -48,7 +48,7 @@ func (p *Provider) SelectAllPosts() ([]*entities.Post, error) {
 	posts := []*entities.Post{}
 
 	rows, err := p.conn.Query(
-		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.post",
+		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.posts",
 	)
 
 	if err != nil {
@@ -74,7 +74,7 @@ func (p *Provider) SelectAllPosts() ([]*entities.Post, error) {
 func (p *Provider) UpdatePostById(post entities.Post) (*entities.Post, error) {
 	var updatedPost entities.Post
 	err := p.conn.QueryRow(
-		"UPDATE public.post SET title=$1, body=$2, updatedate=$3 WHERE id = $4 RETURNING title, body, createdate, updatedate, userid",
+		"UPDATE public.posts SET title=$1, body=$2, updatedate=$3 WHERE id = $4 RETURNING title, body, createdate, updatedate, userid",
 		post.Name, post.Text, post.UpdateDate, post.ID,
 	).Scan(&updatedPost.Name, updatedPost.Text, updatedPost.CreateDate, updatedPost.UpdateDate, updatedPost.UserId)
 	if err != nil {
