@@ -130,9 +130,9 @@ func (p *Provider) SelectUserById(id int) (*entities.User, error) {
 	var user entities.User
 
 	err := p.conn.QueryRow(
-		`SELECT id, name, email, password, admin, token FROM public.users WHERE id = $1`,
+		`SELECT id, name, email, password, admin FROM public.users WHERE id = $1`,
 		id,
-	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Admin, &user.Token)
+	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Admin)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
