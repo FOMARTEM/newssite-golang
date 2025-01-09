@@ -29,6 +29,12 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 
 	api.server.Use(middleware.Logger())
 
+	api.server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:3000"},                                                                // Разрешённые источники (React клиент)
+		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},                                             // Разрешённые HTTP методы
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization}, // Разрешённые заголовки
+	}))
+
 	api.server.Use(echojwt.WithConfig(echojwt.Config{
 		SigningKey: []byte(secretKey),
 		Skipper: func(c echo.Context) bool {
