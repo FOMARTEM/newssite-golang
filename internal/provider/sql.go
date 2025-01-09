@@ -33,7 +33,7 @@ func (p *Provider) InsertPost(post entities.Post) (*entities.Post, error) {
 func (p *Provider) SelectPostById(id int) (*entities.Post, error) {
 	var post entities.Post
 	err := p.conn.QueryRow(
-		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.posts WHERE id = $1",
+		"SELECT \"post_id\", title, body, TO_CHAR(createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(updatedate, 'YYYY/MM/DD') AS updatedate,  \"user_id\"  FROM public.posts WHERE id = $1",
 		id,
 	).Scan(&post.ID, &post.Name, &post.Text, &post.CreateDate, &post.UpdateDate, &post.UserId)
 	if err != nil {
@@ -48,7 +48,7 @@ func (p *Provider) SelectAllPosts() ([]*entities.Post, error) {
 	posts := []*entities.Post{}
 
 	rows, err := p.conn.Query(
-		"SELECT \"post_id\", title, body,  TO_CHAR(createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(updatedate, 'YYYY/MM/DD') AS updatedate, \"user_id\"  FROM public.posts ORDER BY \"post_id\" ASC",
+		"SELECT \"post_id\", title, body, TO_CHAR(createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(updatedate, 'YYYY/MM/DD') AS updatedate, \"user_id\"  FROM public.posts ORDER BY \"post_id\" ASC",
 	)
 
 	if err != nil {
