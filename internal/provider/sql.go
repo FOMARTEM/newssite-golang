@@ -48,7 +48,7 @@ func (p *Provider) SelectAllPosts() ([]*entities.Post, error) {
 	posts := []*entities.Post{}
 
 	rows, err := p.conn.Query(
-		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.posts",
+		"SELECT \"post_id\", title, body, createdate, updatedate, \"user_id\"  FROM public.posts ORDER BY \"post_id\" ASC",
 	)
 
 	if err != nil {
