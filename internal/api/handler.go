@@ -98,6 +98,7 @@ func (s *Server) GetUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, user)
 }
 
+// сделать так что бы проверялось совпадение старого пароля, а уже потом только измененеие данных пользователя
 func (s *Server) UpdateUser(e echo.Context) error {
 	var user entities.User
 
@@ -127,6 +128,9 @@ func (s *Server) UpdateUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, updateUser)
 }
 
+// Обработчики связанные с постами
+
+// Сделать что бы пост мог создаваться только админом
 func (s *Server) CreatePost(e echo.Context) error {
 	var post entities.Post
 
@@ -175,6 +179,7 @@ func (s *Server) GetPost(e echo.Context) error {
 	return e.JSON(http.StatusOK, post)
 }
 
+// Сделать так что бы только админ поста мог обновлять пост
 func (s *Server) UpdatePost(e echo.Context) error {
 	var post entities.Post
 
@@ -204,6 +209,7 @@ func (s *Server) UpdatePost(e echo.Context) error {
 	return e.JSON(http.StatusCreated, updatedPost)
 }
 
+// Сделать так что бы только админ поста мог удалять пост
 func (s *Server) DeletePost(e echo.Context) error {
 	id, err := strconv.Atoi(e.Param("id"))
 	if err != nil {
