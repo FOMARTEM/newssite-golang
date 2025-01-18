@@ -13,8 +13,8 @@ func (p *Provider) InsertUser(user entities.User) (*entities.User, error) {
 	var id int
 
 	err := p.conn.QueryRow(
-		`INSERT INTO public.users (name, email, password, admin) VALUES ($1, $2, $3, $4) RETURNING id`,
-		user.Name, user.Email, user.Password, false,
+		`CALL create_user($1, $2, $3, n_id := NULL)`,
+		user.Name, user.Email, user.Password,
 	).Scan(&id)
 
 	if err != nil {
@@ -26,7 +26,6 @@ func (p *Provider) InsertUser(user entities.User) (*entities.User, error) {
 		Name:     user.Name,
 		Email:    user.Email,
 		Password: user.Password,
-		Admin:    user.Admin,
 	}, nil
 }
 
@@ -35,9 +34,9 @@ func (p *Provider) SelectUserById(id int) (*entities.User, error) {
 	var user entities.User
 
 	err := p.conn.QueryRow(
-		`SELECT id, name, email, password, admin FROM public.users WHERE id = $1`,
+		`SELECT * FROM get_user(p_id => $1)`,
 		id,
-	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Admin)
+	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.AdminRole)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -54,9 +53,9 @@ func (p *Provider) SelectUserByEmail(email string) (*entities.User, error) {
 	var user entities.User
 
 	err := p.conn.QueryRow(
-		`SELECT id, name, email, password, admin FROM public.users WHERE email = $1`,
+		`SELECT * FROM get_user(p_email => $1)`,
 		email,
-	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Admin)
+	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.AdminRole)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -73,7 +72,7 @@ func (p *Provider) SelectUserPasswordByEmail(email string) (*string, error) {
 	var password string
 
 	err := p.conn.QueryRow(
-		`SELECT password FROM public.users WHERE email = $1`,
+		`SELECT * FROM get_password(p_email => $1);`,
 		email,
 	).Scan(&password)
 
@@ -90,31 +89,23 @@ func (p *Provider) SelectUserPasswordByEmail(email string) (*string, error) {
 // редактирование пользователя
 // все данные
 func (p *Provider) UpdateUserById(user entities.User) (*entities.User, error) {
-	var updateduser entities.User
-
-	err := p.conn.QueryRow(
-		`UPDATE public.users SET name=$1, email=$2, password=$3 WHERE id = $4 RETURNING name, email, password`,
-		user.Name, user.Email, user.Password, user.ID,
-	).Scan(&updateduser.Name, &updateduser.Email, &updateduser.Password)
+	_, err := p.conn.Query(
+		`CALL update_user($1, $2, $3)`,
+		user.ID, user.Name, user.Password,
+	)
 
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
 		return nil, err
 	}
 
-	updateduser.ID = user.ID
-	updateduser.Admin = user.Admin
-
-	return &updateduser, nil
+	return &user, nil
 }
 
 // обновление статуса admin по id
-func (p *Provider) UpdateUserAdminRulesById(id int, admin bool) error {
+func (p *Provider) UpdateUserAdminRulesById(id int, adminRole int) error {
 	_, err := p.conn.Query(
-		`UPDATE public.users SET admin = $1 WHERE id = $2`,
-		admin, id,
+		`CALL update_user($1, $2)`,
+		id, adminRole,
 	)
 
 	if err != nil {
@@ -125,10 +116,10 @@ func (p *Provider) UpdateUserAdminRulesById(id int, admin bool) error {
 }
 
 // обновление статуса admin по email
-func (p *Provider) UpdateUserAdminRulesByEmail(email string, admin bool) error {
+func (p *Provider) UpdateUserAdminRulesByEmail(email string, adminRole int) error {
 	_, err := p.conn.Query(
-		`UPDATE public.users SET admin = $1 WHERE email = $2`,
-		admin, email,
+		`CALL update_user($1, $2)`,
+		email, adminRole,
 	)
 
 	if err != nil {
@@ -139,8 +130,8 @@ func (p *Provider) UpdateUserAdminRulesByEmail(email string, admin bool) error {
 }
 
 // проверка статуса admin по id
-func (p *Provider) CheckUserIsAdminById(id int) (*bool, error) {
-	var admin bool
+func (p *Provider) CheckUserIsAdminById(id int) (*int, error) {
+	var admin int
 
 	err := p.conn.QueryRow(
 		`SELECT admin FROM public.users WHERE id = $1`,
@@ -159,8 +150,8 @@ func (p *Provider) CheckUserIsAdminById(id int) (*bool, error) {
 }
 
 // проверка статуса admin по email
-func (p *Provider) CheckUserIsAdminByEmail(email string) (*bool, error) {
-	var admin bool
+func (p *Provider) CheckUserIsAdminByEmail(email string) (*int, error) {
+	var admin int
 
 	err := p.conn.QueryRow(
 		`SELECT admin FROM public.users WHERE email = $1`,
