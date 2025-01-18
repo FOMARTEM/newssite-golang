@@ -8,7 +8,7 @@ type Usecase interface {
 	CheckPasswordUser(user entities.User) (*bool, error)
 	SelectUserByID(id int) (*entities.User, error)
 	SelectUserByEmail(email string) (*entities.User, error)
-	UpdateAdminRules(email string, admin bool) (*bool, error)
+	UpdateAdminRules(email string, admin int) (*bool, error)
 	UpdateUser(user entities.User) (*entities.User, error)
 	DeleteUserById(id int) error
 	DeleteUserByEmail(email string) error

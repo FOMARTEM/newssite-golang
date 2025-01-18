@@ -21,11 +21,11 @@ type Provider interface {
 	SelectUserPasswordByEmail(email string) (*string, error)
 
 	UpdateUserById(user entities.User) (*entities.User, error)
-	UpdateUserAdminRulesById(id int, admin bool) error
-	UpdateUserAdminRulesByEmail(email string, admin bool) error
+	UpdateUserAdminRulesById(id int, admin int) error
+	UpdateUserAdminRulesByEmail(email string, admin int) error
 
-	CheckUserIsAdminById(id int) (*bool, error)
-	CheckUserIsAdminByEmail(email string) (*bool, error)
+	CheckUserIsAdminById(id int) (*int, error)
+	CheckUserIsAdminByEmail(email string) (*int, error)
 
 	DeleteUserById(id int) error
 	DeleteUserByEmail(email string) error

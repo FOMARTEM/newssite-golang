@@ -66,7 +66,7 @@ func (u *Usecase) SelectUserByEmail(email string) (*entities.User, error) {
 }
 
 // UpdateAdminRules
-func (u *Usecase) UpdateAdminRules(email string, admin bool) (*bool, error) {
+func (u *Usecase) UpdateAdminRules(email string, admin int) (*bool, error) {
 	update := false
 
 	err := u.p.UpdateUserAdminRulesByEmail(email, admin)
