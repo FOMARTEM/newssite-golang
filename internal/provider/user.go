@@ -134,7 +134,7 @@ func (p *Provider) CheckUserIsAdminById(id int) (*int, error) {
 	var admin int
 
 	err := p.conn.QueryRow(
-		`SELECT admin FROM public.users WHERE id = $1`,
+		`SELECT * FROM get_admin(p_id => $1)`,
 		id,
 	).Scan(&admin)
 
@@ -154,7 +154,7 @@ func (p *Provider) CheckUserIsAdminByEmail(email string) (*int, error) {
 	var admin int
 
 	err := p.conn.QueryRow(
-		`SELECT admin FROM public.users WHERE email = $1`,
+		`SELECT * FROM get_admin(p_email => $1)`,
 		email,
 	).Scan(&admin)
 

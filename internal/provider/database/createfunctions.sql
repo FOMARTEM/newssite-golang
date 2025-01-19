@@ -39,3 +39,23 @@ BEGIN
         u.email = p_email;
 END;
 $$;
+
+-- Получение admib по id или email
+CREATE OR REPLACE FUNCTION get_admin(
+    p_id INT DEFAULT NULL,
+    p_email VARCHAR DEFAULT NULL
+)
+RETURNS TABLE (
+    admin integer
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT u.admin
+    FROM public.users u
+    WHERE 
+        (p_id IS NULL OR u.id = p_id) AND
+        (p_email IS NULL OR u.email = p_email);
+END;
+$$;
