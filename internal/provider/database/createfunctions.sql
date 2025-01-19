@@ -40,7 +40,7 @@ BEGIN
 END;
 $$;
 
--- Получение admib по id или email
+-- Получение admin по id или email
 CREATE OR REPLACE FUNCTION get_admin(
     p_id INT DEFAULT NULL,
     p_email VARCHAR DEFAULT NULL
@@ -57,5 +57,69 @@ BEGIN
     WHERE 
         (p_id IS NULL OR u.id = p_id) AND
         (p_email IS NULL OR u.email = p_email);
+END;
+$$;
+
+
+-- Получение поста по id
+CREATE OR REPLACE FUNCTION get_post(
+    p_id INT
+)
+RETURNS TABLE (
+    id INT,
+    title VARCHAR,
+    body text,
+    createdate date,
+    updatedate date,
+    user_id integer
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
+    FROM public.posts p
+    WHERE p.id = p_id;
+END;
+$$;
+
+-- Получение всех постов
+CREATE OR REPLACE FUNCTION get_posts()
+RETURNS TABLE (
+    id INT,
+    title VARCHAR,
+    body text,
+    createdate date,
+    updatedate date,
+    user_id integer
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
+    FROM public.posts p;
+END;
+$$;
+
+-- Получение всех постов пользователя
+CREATE OR REPLACE FUNCTION get_user_posts(
+    IN p_user_id integer
+)
+RETURNS TABLE (
+    id INT,
+    title VARCHAR,
+    body text,
+    createdate date,
+    updatedate date,
+    user_id integer
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
+    FROM public.posts p
+    WHERE p.user_id = p_user_id;
 END;
 $$;
