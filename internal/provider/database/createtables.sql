@@ -44,7 +44,7 @@ ALTER TABLE IF EXISTS public.comments
     ADD CONSTRAINT post_id FOREIGN KEY (post_id)
     REFERENCES public.posts (id) MATCH SIMPLE
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     NOT VALID;
 
 
