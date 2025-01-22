@@ -77,7 +77,7 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
+    SELECT p.id, p.title, p.body, TO_CHAR(p.createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(p.updatedate, 'YYYY/MM/DD') AS updatedate, p.user_id
     FROM public.posts p
     WHERE p.id = p_id;
 END;
@@ -98,7 +98,8 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
-    FROM public.posts p;
+    FROM public.posts p
+    ORDER BY id ASC;
 END;
 $$;
 
