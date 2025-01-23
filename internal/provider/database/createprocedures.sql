@@ -100,3 +100,55 @@ BEGIN
     DELETE FROM public.posts WHERE user_id = p_user_id;
 END;
 $$;
+
+-- Создание комментария
+CREATE OR REPLACE PROCEDURE create_comment(
+    IN p_body VARCHAR,
+	IN p_post_id integer,
+	IN p_user_id integer,
+	OUT n_id integer
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO comments (body, post_id, user_id)
+    VALUES (p_body, p_post_id, p_user_id)
+
+    RETURNING id INTO n_id;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE update_comment (
+    IN p_id integer,
+    IN n_body VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE public.comments
+    SET body = n_body
+    WHERE id = p_id;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE delete_comment(
+    IN p_id integer
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM public.comments 
+    WHERE id = p_id; 
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE delete_comments(
+    IN p_post_id integer
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM public.comments 
+    WHERE post_id = p_post_id; 
+END;
+$$;

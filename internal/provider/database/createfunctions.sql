@@ -108,7 +108,7 @@ CREATE OR REPLACE FUNCTION get_user_posts(
     IN p_user_id integer
 )
 RETURNS TABLE (
-    id INT,
+    id integer,
     title VARCHAR,
     body text,
     createdate date,
@@ -122,5 +122,26 @@ BEGIN
     SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
     FROM public.posts p
     WHERE p.user_id = p_user_id;
+END;
+$$;
+
+
+CREATE OR REPLACE FUNCTION get_comments_by_post_id(
+    IN p_post_id integer
+)
+RETURNS TABLE (
+    id integer,
+    bidy text,
+    post_id integer,
+    user_id integer,
+    user_name VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    SELECT c.id, c.body, c.post_id, c.user_id, u.name
+	FROM public.comments c
+    JOIN public.users u ON c.user_id = u.id
+	WHERE post_id = p_post_id;
 END;
 $$;
