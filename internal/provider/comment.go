@@ -71,9 +71,27 @@ func (p *Provider) UpdateComment(comment entities.Comment) (*entities.Comment, e
 }
 
 func (p *Provider) DeleteComment(id int) error {
+	_, err := p.conn.Query(
+		"CALL  delete_comment($1)",
+		id,
+	)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func (p *Provider) DeleteComments(postId int) error {
+func (p *Provider) DeleteCommentsInPost(postId int) error {
+	_, err := p.conn.Query(
+		"CALL  delete_comments($1)",
+		postId,
+	)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
