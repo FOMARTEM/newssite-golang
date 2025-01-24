@@ -29,4 +29,15 @@ type Provider interface {
 
 	DeleteUserById(id int) error
 	DeleteUserByEmail(email string) error
+
+	//работа сomments
+	InsertComment(comment entities.Comment) (*entities.Comment, error)
+
+	GetCommentsForPost(post_id int) ([]*entities.Comment, error)
+
+	UpdateComment(comment entities.Comment) (*entities.Comment, error)
+
+	DeleteComment(id int) error
+
+	DeleteCommentsInPost(postId int) error
 }
