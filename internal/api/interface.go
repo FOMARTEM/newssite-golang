@@ -19,4 +19,11 @@ type Usecase interface {
 	ListPosts() ([]*entities.Post, error)
 	UpdatePost(post entities.Post) (*entities.Post, error)
 	DeletePost(id int) error
+
+	//работа с Comment
+	CreateComment(comment entities.Comment) (*entities.Comment, error)
+	PostComments(post_id int) ([]*entities.Comment, error)
+	UpdateComment(comment entities.Comment) (*entities.Comment, error)
+	DeleteComment(id int) error
+	DeleteCommentsInPost(post_id int) error
 }
