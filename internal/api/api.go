@@ -27,7 +27,11 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	api.server = echo.New()
 	api.server.Logger.SetLevel(log.ERROR)
 
-	api.server.Use(middleware.Logger())
+	//вывод в логов в консоль
+	api.server.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format:           `[${time_custom}]  |  ${status}  |  ${method}  |  ${remote_ip}${path}` + "\n",
+		CustomTimeFormat: "2006-01-02 15:04:05",
+	}))
 
 	api.server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:3000"},                                                                // Разрешённые источники (React клиент)
@@ -59,6 +63,8 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	api.server.GET("/post/:id", api.GetPost)
 	api.server.PUT("/post/:id", api.UpdatePost)
 	api.server.DELETE("/post/:id", api.DeletePost)
+
+	//комментарии
 
 	api.address = fmt.Sprintf("%s:%d", ip, port)
 
