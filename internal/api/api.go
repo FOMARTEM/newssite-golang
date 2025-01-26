@@ -34,9 +34,9 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	}))
 
 	api.server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000"},                                                                // Разрешённые источники (React клиент)
-		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},                                             // Разрешённые HTTP методы
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization}, // Разрешённые заголовки
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
 	api.server.Use(echojwt.WithConfig(echojwt.Config{
