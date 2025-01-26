@@ -65,6 +65,10 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	api.server.DELETE("/post/:id", api.DeletePost)
 
 	//комментарии
+	api.server.POST("/comment", api.CreateComment)
+	api.server.GET("/comments/:id", api.GetComments)
+	api.server.DELETE("/comment/:id", api.DeleteComment)
+	api.server.DELETE("/comments/:id", api.DeleteComments)
 
 	api.address = fmt.Sprintf("%s:%d", ip, port)
 
