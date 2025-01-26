@@ -126,3 +126,9 @@ func (s *Server) UpdateUser(e echo.Context) error {
 
 	return e.JSON(http.StatusOK, updateUser)
 }
+
+func UserIDFromToken(e echo.Context) int {
+	user := e.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	return int(claims["id"].(float64))
+}

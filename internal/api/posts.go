@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/FOMARTEM/newssite-golang/internal/entities"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -107,10 +106,4 @@ func (s *Server) DeletePost(e echo.Context) error {
 	return e.JSON(http.StatusOK, echo.Map{
 		"error": "ты не туда залез",
 	})
-}
-
-func UserIDFromToken(e echo.Context) int {
-	user := e.Get("user").(*jwt.Token)
-	claims := user.Claims.(jwt.MapClaims)
-	return int(claims["id"].(float64))
 }
