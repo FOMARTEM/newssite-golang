@@ -127,6 +127,7 @@ func (s *Server) UpdateUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, updateUser)
 }
 
+// перенести логику в usecase
 func (s *Server) EditRules(e echo.Context) error {
 	admin_id := UserIDFromToken(e)
 	var user entities.User
