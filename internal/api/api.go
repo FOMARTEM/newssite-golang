@@ -54,7 +54,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	api.server.POST("/login", api.Login)
 	api.server.GET("/profile", api.GetUser)
 	api.server.PUT("/profile", api.UpdateUser)
-	api.server.PUT("/rules/:id", api.EditRules)
+	api.server.PUT("/rules", api.EditRules)
 
 	//посты
 	api.server.POST("/post", api.CreatePost)
