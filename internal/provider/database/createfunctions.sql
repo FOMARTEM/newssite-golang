@@ -71,14 +71,16 @@ RETURNS TABLE (
     body text,
     createdate text,
     updatedate text,
-    user_id integer
+    user_id integer,
+	user_name VARCHAR
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT p.id, p.title, p.body, TO_CHAR(p.createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(p.updatedate, 'YYYY/MM/DD') AS updatedate, p.user_id
+    SELECT p.id, p.title, p.body, TO_CHAR(p.createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(p.updatedate, 'YYYY/MM/DD') AS updatedate, p.user_id, u.name
     FROM public.posts p
+    JOIN public.users u ON u.id = p.user_id
     WHERE p.id = p_id;
 END;
 $$;
@@ -89,17 +91,19 @@ RETURNS TABLE (
     id INT,
     title VARCHAR,
     body text,
-    createdate date,
-    updatedate date,
-    user_id integer
+    createdate text,
+    updatedate text,
+    user_id integer,
+    user_name VARCHAR
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
+    SELECT p.id, p.title, p.body, TO_CHAR(p.createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(p.updatedate, 'YYYY/MM/DD') AS updatedate, p.user_id, u.name
     FROM public.posts p
-    ORDER BY id ASC;
+    JOIN public.users u ON u.id = p.user_id
+    ORDER BY id DESC;
 END;
 $$;
 
@@ -111,16 +115,18 @@ RETURNS TABLE (
     id integer,
     title VARCHAR,
     body text,
-    createdate date,
-    updatedate date,
-    user_id integer
+    createdate text,
+    updatedate text,
+    user_id integer,
+    user_name VARCHAR
 )
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT p.id, p.title, p.body, p.createdate, p.updatedate, p.user_id
+    SELECT p.id, p.title, p.body, TO_CHAR(p.createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(p.updatedate, 'YYYY/MM/DD') AS updatedate, p.user_id, u.name
     FROM public.posts p
+    JOIN public.users u ON u.id = p.user_id
     WHERE p.user_id = p_user_id;
 END;
 $$;

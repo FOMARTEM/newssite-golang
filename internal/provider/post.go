@@ -35,7 +35,7 @@ func (p *Provider) SelectPostById(id int) (*entities.Post, error) {
 	err := p.conn.QueryRow(
 		"SELECT * FROM get_post($1)",
 		id,
-	).Scan(&post.ID, &post.Name, &post.Text, &post.CreateDate, &post.UpdateDate, &post.UserId)
+	).Scan(&post.ID, &post.Name, &post.Text, &post.CreateDate, &post.UpdateDate, &post.UserId, &post.UserName)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (p *Provider) SelectAllPosts() ([]*entities.Post, error) {
 
 	for rows.Next() {
 		var post entities.Post
-		if err := rows.Scan(&post.ID, &post.Name, &post.Text, &post.CreateDate, &post.UpdateDate, &post.UserId); err != nil {
+		if err := rows.Scan(&post.ID, &post.Name, &post.Text, &post.CreateDate, &post.UpdateDate, &post.UserId, &post.UserName); err != nil {
 			return nil, err
 		}
 		posts = append(posts, &post)
