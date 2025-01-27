@@ -102,7 +102,8 @@ BEGIN
     RETURN QUERY
     SELECT p.id, p.title, p.body, TO_CHAR(p.createdate, 'YYYY/MM/DD') AS createdate,  TO_CHAR(p.updatedate, 'YYYY/MM/DD') AS updatedate, p.user_id, u.name
     FROM public.posts p
-    JOIN public.users u ON u.id = p.user_id
+    JOIN public.users u ON u.id = p.user_id 
+    WHERE u.admin = 2
     ORDER BY id DESC;
 END;
 $$;
