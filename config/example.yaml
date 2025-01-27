@@ -1,0 +1,13 @@
+ip: ""
+port: 
+api:
+  secret_key: ""
+  front_address: ""
+usecase:
+  default_message: ""
+db:
+  host: ""
+  port: 
+  user: ""
+  password: ""
+  dbname: ""
