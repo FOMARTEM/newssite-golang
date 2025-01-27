@@ -160,7 +160,7 @@ func (s *Server) EditRules(e echo.Context) error {
 	}
 
 	return e.JSON(http.StatusOK, echo.Map{
-		"msg": "Обновление прав прошло успешно",
+		"message": "Обновление прав прошло успешно",
 	})
 
 }

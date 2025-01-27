@@ -39,7 +39,7 @@ CREATE OR REPLACE PROCEDURE update_user (
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    UPDATE public.users SET admin=p_admin WHERE id = p_id;
+    UPDATE public.users SET admin = p_admin WHERE id = p_id;
 END;
 $$;
 
@@ -50,7 +50,7 @@ CREATE OR REPLACE PROCEDURE update_user (
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    UPDATE public.users SET email=p_email WHERE id = p_id;
+    UPDATE public.users SET admin = p_admin WHERE email = p_email;
 END;
 $$;
 
