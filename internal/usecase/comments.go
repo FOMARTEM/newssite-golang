@@ -5,6 +5,16 @@ import (
 )
 
 func (u *Usecase) CreateComment(comment entities.Comment) (*entities.Comment, error) {
+	adminRules, err := u.p.CheckUserIsAdminById(comment.UserId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if *adminRules < 1 {
+		return nil, entities.ErrCommentNotFound //поменять потом ошибку
+	}
+
 	createdComment, err := u.p.InsertComment(comment)
 
 	if err != nil {
