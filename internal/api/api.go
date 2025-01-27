@@ -54,8 +54,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	api.server.POST("/login", api.Login)
 	api.server.GET("/profile", api.GetUser)
 	api.server.PUT("/profile", api.UpdateUser)
-	//может быть когда нибудь
-	//api.server.PUT("/rules", api.Editrules)
+	api.server.PUT("/rules/:id", api.EditRules)
 
 	//посты
 	api.server.POST("/post", api.CreatePost)
@@ -63,10 +62,13 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	api.server.GET("/post/:id", api.GetPost)
 	api.server.PUT("/post/:id", api.UpdatePost)
 	api.server.DELETE("/post/:id", api.DeletePost)
+	//api.server.GET("/userposts", api.UserPosts)
+	//api.server.GET("/userposts/:id", api.GetUserPosts)
 
 	//комментарии
 	api.server.POST("/comment", api.CreateComment)
 	api.server.GET("/comments/:id", api.GetComments)
+	//api.server.PUT("/comment/:id", api.UpdateComment)
 	api.server.DELETE("/comment/:id", api.DeleteComment)
 	api.server.DELETE("/comments/:id", api.DeleteComments)
 

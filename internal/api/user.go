@@ -127,6 +127,44 @@ func (s *Server) UpdateUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, updateUser)
 }
 
+func (s *Server) EditRules(e echo.Context) error {
+	admin_id := UserIDFromToken(e)
+	var user entities.User
+
+	admin_user, err := s.uc.SelectUserByID(admin_id)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	admin_rules := admin_user.AdminRole
+
+	if admin_rules != 7 {
+		return e.JSON(http.StatusBadRequest, echo.Map{
+			"error": "У вас нету доступна на обновление",
+		})
+	}
+
+	err = e.Bind(&user)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	flag, err := s.uc.UpdateAdminRules(user.Email, user.AdminRole)
+
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, err.Error())
+	} else if !*flag {
+		return e.JSON(http.StatusInternalServerError, echo.Map{
+			"error": "Непредвиденная ошибка",
+		})
+	}
+
+	return e.JSON(http.StatusOK, echo.Map{
+		"msg": "Обновление прав прошло успешно",
+	})
+
+}
+
 func UserIDFromToken(e echo.Context) int {
 	user := e.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
