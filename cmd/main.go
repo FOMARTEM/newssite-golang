@@ -22,7 +22,7 @@ func main() {
 
 	prv := provider.NewProvider(cfg.DB.Host, cfg.DB.Port, cfg.DB.User, cfg.DB.Password, cfg.DB.DBname)
 	use := usecase.NewUsecase(prv)
-	srv := api.NewServer(cfg.IP, cfg.Port, use, cfg.API.SecretKey)
+	srv := api.NewServer(cfg.IP, cfg.Port, use, cfg.API.SecretKey, cfg.API.FrontAddress)
 
 	srv.Run()
 }

@@ -18,7 +18,7 @@ type Server struct {
 	uc Usecase
 }
 
-func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
+func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress string) *Server {
 	api := Server{
 		uc:        uc,
 		secretKey: secretKey,
@@ -34,7 +34,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string) *Server {
 	}))
 
 	api.server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000"},
+		AllowOrigins: []string{frontAddress}, // сделать в конфиге
 		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
