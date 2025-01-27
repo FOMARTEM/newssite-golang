@@ -69,8 +69,8 @@ RETURNS TABLE (
     id INT,
     title VARCHAR,
     body text,
-    createdate date,
-    updatedate date,
+    createdate text,
+    updatedate text,
     user_id integer
 )
 LANGUAGE plpgsql

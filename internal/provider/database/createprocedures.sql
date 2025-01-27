@@ -67,7 +67,7 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
     -- Вставка нового поста
-    INSERT INTO posts (title, p_body, createdate, createdate, user_id)
+    INSERT INTO posts (title, body, createdate, updatedate, user_id)
     VALUES (p_title, p_body, p_createdate, p_createdate, p_user_id)
 
 	RETURNING id into n_id;
