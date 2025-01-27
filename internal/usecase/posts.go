@@ -6,6 +6,16 @@ import (
 
 // CreatePost
 func (u *Usecase) CreatePost(post entities.Post) (*entities.Post, error) {
+	adminRules, err := u.p.CheckUserIsAdminById(post.UserId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if *adminRules < 1 {
+		return nil, entities.ErrPostNotFound //поменять потом ошибку
+	}
+
 	newPost, err := u.p.InsertPost(post)
 	if err != nil {
 		return nil, err
