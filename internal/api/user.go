@@ -132,12 +132,12 @@ func (s *Server) EditRules(e echo.Context) error {
 	adminId := UserIDFromToken(e)
 	var user entities.User
 
-	admin_user, err := s.uc.SelectUserByID(adminId)
+	adminUser, err := s.uc.SelectUserByID(adminId)
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	adminRules := admin_user.AdminRole
+	adminRules := adminUser.AdminRole
 
 	if adminRules != 7 {
 		return e.JSON(http.StatusBadRequest, echo.Map{
