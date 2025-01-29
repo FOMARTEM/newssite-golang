@@ -129,17 +129,17 @@ func (s *Server) UpdateUser(e echo.Context) error {
 
 // перенести логику в usecase
 func (s *Server) EditRules(e echo.Context) error {
-	admin_id := UserIDFromToken(e)
+	adminId := UserIDFromToken(e)
 	var user entities.User
 
-	admin_user, err := s.uc.SelectUserByID(admin_id)
+	admin_user, err := s.uc.SelectUserByID(adminId)
 	if err != nil {
 		return e.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	admin_rules := admin_user.AdminRole
+	adminRules := admin_user.AdminRole
 
-	if admin_rules != 7 {
+	if adminRules != 7 {
 		return e.JSON(http.StatusBadRequest, echo.Map{
 			"error": "У вас нету доступна на обновление",
 		})

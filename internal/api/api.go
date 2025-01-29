@@ -34,7 +34,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress s
 	}))
 
 	api.server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{frontAddress}, // сделать в конфиге
+		AllowOrigins: []string{frontAddress},
 		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
