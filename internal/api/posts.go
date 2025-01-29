@@ -119,3 +119,18 @@ func (s *Server) MyPosts(e echo.Context) error {
 
 	return e.JSON(http.StatusOK, posts)
 }
+
+func (s *Server) GetUserPosts(e echo.Context) error {
+	userId, err := strconv.Atoi(e.Param("id"))
+	if err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	posts, err := s.uc.ListUserPosts(userId)
+
+	if err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return e.JSON(http.StatusOK, posts)
+}
