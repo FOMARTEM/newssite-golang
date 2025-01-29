@@ -68,7 +68,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress s
 	//комментарии
 	api.server.POST("/comment", api.CreateComment)
 	api.server.GET("/comments/:id", api.GetComments)
-	//api.server.PUT("/comment/:id", api.UpdateComment)
+	api.server.PUT("/comment/:id", api.UpdateComment)
 	api.server.DELETE("/comment/:id", api.DeleteComment)
 	api.server.DELETE("/comments/:id", api.DeleteComments)
 

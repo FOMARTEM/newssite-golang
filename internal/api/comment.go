@@ -77,3 +77,33 @@ func (s *Server) DeleteComments(e echo.Context) error {
 		"error": "ты не туда залез",
 	})
 }
+
+func (s *Server) UpdateComment(e echo.Context) error {
+	var comment entities.Comment
+
+	err := e.Bind(comment)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	err = validator.New().Struct(comment)
+	if err != nil {
+		return e.JSON(http.StatusUnprocessableEntity, err.Error())
+	}
+
+	id, err := strconv.Atoi(e.Param("id"))
+
+	if err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	comment.ID = id
+
+	updatedComment, err := s.uc.UpdateComment(comment)
+
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return e.JSON(http.StatusOK, updatedComment)
+}
