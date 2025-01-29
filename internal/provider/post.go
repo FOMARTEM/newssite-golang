@@ -70,6 +70,33 @@ func (p *Provider) SelectAllPosts() ([]*entities.Post, error) {
 	return posts, nil
 }
 
+func (p *Provider) SelectUserPosts(userId int) ([]*entities.Post, error) {
+	posts := []*entities.Post{}
+
+	rows, err := p.conn.Query(
+		"SELECT * FROM get_user_posts($1)",
+		userId,
+	)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return posts, nil
+		}
+
+		return nil, err
+	}
+
+	for rows.Next() {
+		var post entities.Post
+		if err := rows.Scan(&post.ID, &post.Name, &post.Text, &post.CreateDate, &post.UpdateDate, &post.UserId, &post.UserName); err != nil {
+			return nil, err
+		}
+		posts = append(posts, &post)
+	}
+
+	return posts, nil
+}
+
 // редактировние поста
 func (p *Provider) UpdatePostById(post entities.Post) (*entities.Post, error) {
 	var updatedPost entities.Post

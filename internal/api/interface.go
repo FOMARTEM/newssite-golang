@@ -17,6 +17,7 @@ type Usecase interface {
 	CreatePost(post entities.Post) (*entities.Post, error)
 	SelectPost(id int) (*entities.Post, error)
 	ListPosts() ([]*entities.Post, error)
+	ListUserPosts(userId int) ([]*entities.Post, error)
 	UpdatePost(post entities.Post) (*entities.Post, error)
 	DeletePost(id int) error
 

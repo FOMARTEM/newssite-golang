@@ -8,6 +8,7 @@ type Provider interface {
 
 	SelectPostById(id int) (*entities.Post, error)
 	SelectAllPosts() ([]*entities.Post, error)
+	SelectUserPosts(userId int) ([]*entities.Post, error)
 
 	UpdatePostById(post entities.Post) (*entities.Post, error)
 

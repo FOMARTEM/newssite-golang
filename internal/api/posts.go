@@ -107,3 +107,15 @@ func (s *Server) DeletePost(e echo.Context) error {
 		"error": "ты не туда залез",
 	})
 }
+
+func (s *Server) MyPosts(e echo.Context) error {
+	userId := UserIDFromToken(e)
+
+	posts, err := s.uc.ListUserPosts(userId)
+
+	if err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return e.JSON(http.StatusOK, posts)
+}

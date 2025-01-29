@@ -46,6 +46,15 @@ func (u *Usecase) ListPosts() ([]*entities.Post, error) {
 	return posts, err
 }
 
+func (u *Usecase) ListUserPosts(userId int) ([]*entities.Post, error) {
+	posts, err := u.p.SelectUserPosts(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	return posts, err
+}
+
 func (u *Usecase) UpdatePost(post entities.Post) (*entities.Post, error) {
 	_, err := u.p.SelectPostById(post.ID)
 	if err != nil {
