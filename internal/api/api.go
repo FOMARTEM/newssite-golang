@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"os"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -27,10 +28,18 @@ func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress s
 	api.server = echo.New()
 	api.server.Logger.SetLevel(log.ERROR)
 
-	//вывод в логов в консоль
+	logFile, err := os.OpenFile("../log/log.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		log.Fatalf("Не удалось открыть файл log.txt: %v", err)
+	}
+
+	api.server.Logger.SetOutput(logFile)
+
+	//формат логов
 	api.server.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format:           `[${time_custom}]  |  ${status}  |  ${method}  |  ${remote_ip}${path}` + "\n",
 		CustomTimeFormat: "2006-01-02 15:04:05",
+		Output:           logFile,
 	}))
 
 	api.server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
