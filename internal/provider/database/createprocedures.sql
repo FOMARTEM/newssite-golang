@@ -90,6 +90,21 @@ BEGIN
 END;
 $$;
 
+-- Сокрытие поста
+CREATE OR REPLACE PROCEDURE update_post (
+    IN p_id integer,
+    IN n_hidden integer,
+    IN n_updatedate date
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE public.posts
+    SET hidden = n_hidden, updatedate = n_updatedate
+    WHERE id = p_id;
+END;
+$$;
+
 -- Удаление всех постов пользователя
 CREATE OR REPLACE PROCEDURE delete_user_posts (
     IN p_user_id integer

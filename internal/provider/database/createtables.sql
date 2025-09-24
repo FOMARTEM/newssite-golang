@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS public.posts
     body text NOT NULL,
     createdate date NOT NULL,
     updatedate date,
+    hidden integer, NOT NULL DEFAULT 0, 
     user_id integer NOT NULL,
     PRIMARY KEY (id)
 );
