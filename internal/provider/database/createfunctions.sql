@@ -149,6 +149,6 @@ BEGIN
     SELECT c.id, c.body, c.post_id, c.user_id, u.name
 	FROM public.comments c
     JOIN public.users u ON c.user_id = u.id
-	WHERE post_id = p_post_id;
+	WHERE post_id = p_post_id AND u.admin >= 0;
 END;
 $$;
