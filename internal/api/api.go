@@ -73,6 +73,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress s
 	api.server.DELETE("/post/:id", api.DeletePost)
 	api.server.GET("/myposts", api.MyPosts)
 	api.server.GET("/userposts/:id", api.GetUserPosts)
+	api.server.PUT("/hidepost/:id", api.HidePost)
 
 	//комментарии
 	api.server.POST("/comment", api.CreateComment)
