@@ -2,6 +2,7 @@ package api
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -70,7 +71,7 @@ func (s *Server) Login(e echo.Context) error {
 
 	claims := token.Claims.(jwt.MapClaims)
 	claims["id"] = u.ID
-	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
+	claims["exp"] = time.Now().Add(time.Hour * 1000).Unix()
 
 	u.Token, err = token.SignedString([]byte(s.secretKey))
 
@@ -97,7 +98,6 @@ func (s *Server) GetUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, user)
 }
 
-// сделать так что бы проверялось совпадение старого пароля, а уже потом только измененеие данных пользователя
 func (s *Server) UpdateUser(e echo.Context) error {
 	var user entities.User
 
@@ -127,7 +127,6 @@ func (s *Server) UpdateUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, updateUser)
 }
 
-// перенести логику в usecase
 func (s *Server) EditRules(e echo.Context) error {
 	adminId := UserIDFromToken(e)
 	var user entities.User
@@ -168,6 +167,8 @@ func (s *Server) EditRules(e echo.Context) error {
 
 func UserIDFromToken(e echo.Context) int {
 	user := e.Get("user").(*jwt.Token)
+	fmt.Print(user)
 	claims := user.Claims.(jwt.MapClaims)
+	fmt.Print(claims)
 	return int(claims["id"].(float64))
 }

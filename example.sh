@@ -5,23 +5,23 @@
 # Создание пользователя
 curl -X POST  http://127.0.0.1:8081/signup \
  -H "Content-Type: application/json" \
-  -d ' { "name" : "", "email" : "", "password" : ""}'
+  -d ' { "name" : "Artem", "email" : "1@gmail.com", "password" : "12345678"}'
 
 # Авторизация
 curl -X POST  http://127.0.0.1:8081/login \
  -H "Content-Type: application/json" \
- -d '{ "email" : "", "password" : ""}'
+ -d '{ "email" : "1@gmail.com", "password" : "12345678"}'
 
 # Получение профиля
 curl -X GET http://127.0.0.1:8081/profile \
- -H "Authorization: Bearer  "
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjQ2OTc0MTQsImlkIjoxMn0.H-uChSvMF5XpQtMDyqwWXAMTCHVUDmlVZ0qqjDuuhU0"
 
 # Обновление профиля
 # Поменять можно имя и пароль, в будущем добавится повторный ввод пароля
 curl -X PUT http://127.0.0.1:8081/profile \
- -H "Authorization: Bearer  " \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjQ2OTc0MTQsImlkIjoxMn0.H-uChSvMF5XpQtMDyqwWXAMTCHVUDmlVZ0qqjDuuhU0" \
  -H "Content-Type: application/json" \
- -d '{ "name" : "", "email" : "", "password" : ""}'
+ -d '{ "name" : "Shahov", "email" : "1@gmail.com", "password" : "123456789"}'
 
 # В будущем обновление профиля будет изменено, а так же будет добавлено обновление прав администратора
 

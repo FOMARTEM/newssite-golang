@@ -130,3 +130,20 @@ func (p *Provider) DeletePostById(id int) error {
 
 	return nil
 }
+
+func (p *Provider) HidePostById(id int, hide int, UpdateDate string) error {
+	_, err := p.conn.Query(
+		"CALL update_post($1, $2, $3)",
+		id, hide, UpdateDate,
+	)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return entities.ErrPostNotFound
+		}
+
+		return err
+	}
+
+	return nil
+}

@@ -134,3 +134,24 @@ func (s *Server) GetUserPosts(e echo.Context) error {
 
 	return e.JSON(http.StatusOK, posts)
 }
+
+func (s *Server) HidePost(e echo.Context) error {
+	var post entities.Post
+
+	err := e.Bind(&post)
+	if err != nil {
+		return e.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	userId := UserIDFromToken(e)
+
+	err = s.uc.HidePost(post.ID, userId)
+
+	if err != nil {
+		return e.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return e.JSON(http.StatusOK, echo.Map{
+		"error": "Пост скрыт с общей ленты публикаций",
+	})
+}

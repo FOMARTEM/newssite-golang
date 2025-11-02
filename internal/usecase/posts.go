@@ -13,7 +13,7 @@ func (u *Usecase) CreatePost(post entities.Post) (*entities.Post, error) {
 	}
 
 	if *adminRules < 1 {
-		return nil, entities.ErrPostNotFound //поменять потом ошибку
+		return nil, entities.ErrPostNotFound
 	}
 
 	newPost, err := u.p.InsertPost(post)
@@ -56,9 +56,13 @@ func (u *Usecase) ListUserPosts(userId int) ([]*entities.Post, error) {
 }
 
 func (u *Usecase) UpdatePost(post entities.Post) (*entities.Post, error) {
-	_, err := u.p.SelectPostById(post.ID)
+	currPost, err := u.p.SelectPostById(post.ID)
 	if err != nil {
 		return nil, err
+	}
+
+	if post.UserId != currPost.UserId {
+		return nil, entities.ErrPostNotFound
 	}
 
 	updatedUser, err := u.p.UpdatePostById(post)
@@ -67,6 +71,11 @@ func (u *Usecase) UpdatePost(post entities.Post) (*entities.Post, error) {
 	}
 
 	return updatedUser, nil
+}
+
+func (u *Usecase) HidePost(postId int, userId int) error {
+
+	return nil
 }
 
 func (u *Usecase) DeletePost(id int) error {
