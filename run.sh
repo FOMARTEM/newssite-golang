@@ -13,5 +13,25 @@ echo "Файлы проверены"
 
 echo "Запуск сервера"
 
-cd cmd
-go run main.go
+cd cmd || exit
+
+# Запускаем сервер в фоне
+go run main.go &
+SERVER_PID=$!
+
+echo "Сервер запущен (PID: $SERVER_PID)"
+echo "Введите 'stop' чтобы остановить сервер"
+
+# Цикл ожидания команды stop
+while true; do
+  read -r cmd
+  if [[ "$cmd" == "stop" ]]; then
+    echo "Остановка сервера..."
+    kill $SERVER_PID
+    wait $SERVER_PID 2>/dev/null
+    echo "Сервер остановлен"
+    break
+  else
+    echo "Неизвестная команда: $cmd (введите 'stop' для остановки)"
+  fi
+done
