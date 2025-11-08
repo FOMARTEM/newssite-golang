@@ -24,7 +24,7 @@ type Provider interface {
 	SelectUserById(id int) (*entities.User, error)
 
 	SelectUserRulesByEmail(email string) (*int, error)
-	SelectUserRulesById(email string) (*int, error)
+	SelectUserRulesById(id int) (*int, error)
 
 	SelectUserPasswordByEmail(email string) (*string, error)
 

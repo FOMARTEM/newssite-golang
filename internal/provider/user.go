@@ -127,7 +127,7 @@ func (p *Provider) SelectUserPasswordByEmail(email string) (*string, error) {
 // редактирование пользователя
 // все данные
 func (p *Provider) UpdateUserById(user entities.User) (*entities.User, error) {
-	_, err := p.conn.Query(
+	_, err := p.conn.Exec(
 		`CALL update_user($1, $2, $3)`,
 		user.ID, user.Name, user.Password,
 	)
@@ -141,7 +141,7 @@ func (p *Provider) UpdateUserById(user entities.User) (*entities.User, error) {
 
 // обновление статуса admin по email
 func (p *Provider) UpdateUserAdminRulesByEmail(email string, adminRole int) error {
-	_, err := p.conn.Query(
+	_, err := p.conn.Exec(
 		`CALL update_user($1, $2)`,
 		email, adminRole,
 	)

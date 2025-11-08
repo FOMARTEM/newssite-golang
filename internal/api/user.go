@@ -2,7 +2,6 @@ package api
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -12,12 +11,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// +
 func (s *Server) CreateUser(e echo.Context) error {
 	var user entities.User
 
 	err := e.Bind(&user)
 	if err != nil {
-		return e.JSON(http.StatusInternalServerError, err.Error())
+		return e.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	err = validator.New().Struct(user)
@@ -41,6 +41,7 @@ func (s *Server) CreateUser(e echo.Context) error {
 	return e.JSON(http.StatusCreated, createdUser)
 }
 
+// +
 func (s *Server) Login(e echo.Context) error {
 	var user entities.User
 
@@ -84,6 +85,7 @@ func (s *Server) Login(e echo.Context) error {
 	return e.JSON(http.StatusOK, u)
 }
 
+// +
 func (s *Server) GetUser(e echo.Context) error {
 	userId := UserIDFromToken(e)
 
@@ -98,6 +100,7 @@ func (s *Server) GetUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, user)
 }
 
+// +
 func (s *Server) UpdateUser(e echo.Context) error {
 	var user entities.User
 
@@ -110,6 +113,8 @@ func (s *Server) UpdateUser(e echo.Context) error {
 	if err != nil {
 		return e.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
+
+	user.ID = UserIDFromToken(e)
 
 	updateUser, err := s.uc.UpdateUser(user)
 
@@ -127,6 +132,7 @@ func (s *Server) UpdateUser(e echo.Context) error {
 	return e.JSON(http.StatusOK, updateUser)
 }
 
+// +
 func (s *Server) EditRules(e echo.Context) error {
 	adminId := UserIDFromToken(e)
 	var user entities.User
@@ -167,8 +173,8 @@ func (s *Server) EditRules(e echo.Context) error {
 
 func UserIDFromToken(e echo.Context) int {
 	user := e.Get("user").(*jwt.Token)
-	fmt.Print(user)
+	//fmt.Print(user)
 	claims := user.Claims.(jwt.MapClaims)
-	fmt.Print(claims)
+	//fmt.Print(claims)
 	return int(claims["id"].(float64))
 }
