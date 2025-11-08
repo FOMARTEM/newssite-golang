@@ -29,6 +29,25 @@ func (p *Provider) InsertUser(user entities.User) (*entities.User, error) {
 	}, nil
 }
 
+// поиск пользователя по email
+func (p *Provider) SelectUserByEmail(email string) (*entities.User, error) {
+	var user entities.User
+
+	err := p.conn.QueryRow(
+		`SELECT * FROM get_user(p_email => $1)`,
+		email,
+	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.AdminRole)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 // поиск пользователя по id
 func (p *Provider) SelectUserById(id int) (*entities.User, error) {
 	var user entities.User
@@ -48,14 +67,14 @@ func (p *Provider) SelectUserById(id int) (*entities.User, error) {
 	return &user, nil
 }
 
-// поиск пользователя по email
-func (p *Provider) SelectUserByEmail(email string) (*entities.User, error) {
-	var user entities.User
+// Получение прав пользователя по email
+func (p *Provider) SelectUserRulesByEmail(email string) (*int, error) {
+	var rules int
 
 	err := p.conn.QueryRow(
-		`SELECT * FROM get_user(p_email => $1)`,
+		`SELECT * FROM get_admin(p_email => $1)`,
 		email,
-	).Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.AdminRole)
+	).Scan(&rules)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -64,7 +83,26 @@ func (p *Provider) SelectUserByEmail(email string) (*entities.User, error) {
 		return nil, err
 	}
 
-	return &user, nil
+	return &rules, nil
+}
+
+// Получение прав пользователя по id
+func (p *Provider) SelectUserRulesById(id int) (*int, error) {
+	var rules int
+
+	err := p.conn.QueryRow(
+		`SELECT * FROM get_admin(p_id => $1)`,
+		id,
+	).Scan(&rules)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &rules, nil
 }
 
 // получение password по email
@@ -101,20 +139,6 @@ func (p *Provider) UpdateUserById(user entities.User) (*entities.User, error) {
 	return &user, nil
 }
 
-// обновление статуса admin по id
-func (p *Provider) UpdateUserAdminRulesById(id int, adminRole int) error {
-	_, err := p.conn.Query(
-		`CALL update_user($1, $2)`,
-		id, adminRole,
-	)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 // обновление статуса admin по email
 func (p *Provider) UpdateUserAdminRulesByEmail(email string, adminRole int) error {
 	_, err := p.conn.Query(
@@ -129,45 +153,8 @@ func (p *Provider) UpdateUserAdminRulesByEmail(email string, adminRole int) erro
 	return nil
 }
 
-// проверка статуса admin по id
-func (p *Provider) CheckUserIsAdminById(id int) (*int, error) {
-	var admin int
-
-	err := p.conn.QueryRow(
-		`SELECT * FROM get_admin(p_id => $1)`,
-		id,
-	).Scan(&admin)
-
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	return &admin, nil
-
-}
-
-// проверка статуса admin по email
-func (p *Provider) CheckUserIsAdminByEmail(email string) (*int, error) {
-	var admin int
-
-	err := p.conn.QueryRow(
-		`SELECT * FROM get_admin(p_email => $1)`,
-		email,
-	).Scan(&admin)
-
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	return &admin, nil
-}
-
+// Функции удаления пользователя
+// Удаление по id
 func (p *Provider) DeleteUserById(id int) error {
 	_, err := p.conn.Exec("DELETE FROM users WHERE id = $1", id)
 	if err != nil {
@@ -181,6 +168,7 @@ func (p *Provider) DeleteUserById(id int) error {
 	return nil
 }
 
+// Удаление по email
 func (p *Provider) DeleteUserByEmail(email string) error {
 	_, err := p.conn.Exec("DELETE FROM users WHERE email = $1", email)
 	if err != nil {
