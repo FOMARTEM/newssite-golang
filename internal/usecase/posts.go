@@ -6,7 +6,7 @@ import (
 
 // CreatePost
 func (u *Usecase) CreatePost(post entities.Post) (*entities.Post, error) {
-	adminRules, err := u.p.CheckUserIsAdminById(post.UserId)
+	adminRules, err := u.p.SelectUserRulesById(post.UserId)
 
 	if err != nil {
 		return nil, err

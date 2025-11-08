@@ -6,9 +6,13 @@ import (
 
 // CreateUser
 func (u *Usecase) CreateUser(user entities.User) (*entities.User, error) {
-	if user, err := u.p.SelectUserByEmail(user.Email); err != nil {
+
+	existingUser, err := u.p.SelectUserByEmail(user.Email)
+	if err != nil {
 		return nil, err
-	} else if user != nil {
+	}
+
+	if existingUser != nil {
 		return nil, entities.ErrUserEmailConflict
 	}
 

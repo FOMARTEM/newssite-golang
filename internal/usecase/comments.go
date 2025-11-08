@@ -5,7 +5,7 @@ import (
 )
 
 func (u *Usecase) CreateComment(comment entities.Comment) (*entities.Comment, error) {
-	adminRules, err := u.p.CheckUserIsAdminById(comment.UserId)
+	adminRules, err := u.p.SelectUserRulesById(comment.UserId)
 
 	if err != nil {
 		return nil, err
