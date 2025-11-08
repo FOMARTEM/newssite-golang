@@ -1,4 +1,6 @@
 # Примеры curl запросов для api
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDQzNDYsImlkIjoxM30.4tBJJCs-oQtqv2wQUp1KvYAR7Ip1YC1hiWaZrZQLzQ8" \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDgyNzcsImlkIjo3fQ.tCruIZWraEiUTe62B2Y9VDLkjvlRtjStKrnaQZndA8E" \
 
 # Работа с пользователем
 
@@ -10,16 +12,16 @@ curl -X POST  http://127.0.0.1:8081/signup \
 # Авторизация
 curl -X POST  http://127.0.0.1:8081/login \
  -H "Content-Type: application/json" \
- -d '{ "email" : "1@gmail.com", "password" : "12345678"}'
+ -d '{ "email" : "admin@mail.com", "password" : "123456789"}'
 
 # Получение профиля
 curl -X GET http://127.0.0.1:8081/profile \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjQ2OTc0MTQsImlkIjoxMn0.H-uChSvMF5XpQtMDyqwWXAMTCHVUDmlVZ0qqjDuuhU0"
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDQzNDYsImlkIjoxM30.4tBJJCs-oQtqv2wQUp1KvYAR7Ip1YC1hiWaZrZQLzQ8"
 
 # Обновление профиля
 # Поменять можно имя и пароль, в будущем добавится повторный ввод пароля
 curl -X PUT http://127.0.0.1:8081/profile \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjQ2OTc0MTQsImlkIjoxMn0.H-uChSvMF5XpQtMDyqwWXAMTCHVUDmlVZ0qqjDuuhU0" \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDQzNDYsImlkIjoxM30.4tBJJCs-oQtqv2wQUp1KvYAR7Ip1YC1hiWaZrZQLzQ8" \
  -H "Content-Type: application/json" \
  -d '{ "name" : "Shahov", "email" : "1@gmail.com", "password" : "123456789"}'
 
@@ -27,9 +29,9 @@ curl -X PUT http://127.0.0.1:8081/profile \
 
 # Изменение прав пользователя
 curl -X PUT http://127.0.0.1:8081/rules \
- -H "Authorization: Bearer " \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDgyNzcsImlkIjo3fQ.tCruIZWraEiUTe62B2Y9VDLkjvlRtjStKrnaQZndA8E" \
  -H "Content-Type: application/json" \
- -d '{ "id" : , "email" : "", "adminrole":}'
+ -d '{ "email" : "1@gmail.com", "adminrole": 7}'
 
 # Работа с постами
 # В будущем будут добавлены права что бы только определённые пользователи могли создавать/редактировать/менять посты
