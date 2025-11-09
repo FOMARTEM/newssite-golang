@@ -3,6 +3,9 @@ package entities
 import "errors"
 
 var (
+	//Ошибки доступа
+	ErrAcsesDenied = errors.New("Acses denied")
+
 	//ошибки постов
 	ErrPostNotFound     = errors.New("post not found")
 	ErrPostNameConflict = errors.New("post name conflict")
