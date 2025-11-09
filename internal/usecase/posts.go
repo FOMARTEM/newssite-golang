@@ -15,7 +15,7 @@ func (u *Usecase) CreatePost(post entities.Post) (*entities.Post, error) {
 	}
 
 	if *adminRules < 6 {
-		return nil, entities.ErrAcsesDenied
+		return nil, entities.ErrAccessDenied
 	}
 
 	newPost, err := u.p.InsertPost(post)
@@ -75,7 +75,7 @@ func (u *Usecase) UpdatePost(post entities.Post, userId int) (*entities.Post, er
 	}
 
 	if *adminRules < 6 {
-		return nil, entities.ErrAcsesDenied
+		return nil, entities.ErrAccessDenied
 	}
 
 	updatedPost, err := u.p.UpdatePostById(post)
@@ -96,7 +96,7 @@ func (u *Usecase) HidePost(postId int, userId int) error {
 	}
 
 	if *adminRules != 7 {
-		return entities.ErrAcsesDenied
+		return entities.ErrAccessDenied
 	}
 
 	post, err := u.p.SelectPostById(postId)
@@ -139,7 +139,7 @@ func (u *Usecase) DeletePost(id int, userId int) error {
 	}
 
 	if *adminRules < 6 {
-		return entities.ErrAcsesDenied
+		return entities.ErrAccessDenied
 	}
 
 	if err := u.p.DeleteCommentsInPost(id); err != nil {

@@ -50,7 +50,7 @@ curl -X PUT http://127.0.0.1:8081/rules \
 
 # Создание поста
 curl -X POST  http://127.0.0.1:8081/post \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
  -H "Content-Type: application/json" \
  -d '{ "title" : "Тестовый пост 2", "body" : "От админа с любовью. раз два три четыре пять вышел зайчик погулять"}'
 
@@ -59,8 +59,6 @@ curl -X GET  http://127.0.0.1:8081/posts
 
 # Получение поста по id 
 # Вместо id вставить id поста полученного при создании поста или получении всех постов
-curl -X GET http://127.0.0.1:8081/post/3 \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
 
 # Получение всех постов текущего пользователя
 curl -X GET http://127.0.0.1:8081/myposts \
