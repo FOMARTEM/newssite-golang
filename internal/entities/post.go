@@ -6,7 +6,7 @@ type Post struct {
 	Text       string `json:"body"  validate:"required,min=50"`
 	CreateDate string `json:"createdate,omitempty"`
 	UpdateDate string `json:"updatedate,omitempty"`
-	Hide       int    `json:"hidden,omitempty"`
+	Hide       int    `json:"hide,omitempty"`
 	UserId     int    `json:"userid,omitempty"`
 	UserName   string `json:"username,omitempty"`
 }

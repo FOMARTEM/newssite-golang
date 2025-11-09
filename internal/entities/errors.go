@@ -4,7 +4,7 @@ import "errors"
 
 var (
 	//Ошибки доступа
-	ErrAcsesDenied = errors.New("Acses denied")
+	ErrAccessDenied = errors.New("access denied")
 
 	//ошибки постов
 	ErrPostNotFound     = errors.New("post not found")
