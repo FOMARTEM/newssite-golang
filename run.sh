@@ -2,12 +2,12 @@
 
 echo "Проверка кода при помощи go vet"
 
-go vet /home/shahov/Documents/SFU/OPPO/newssite-golang/cmd
-go vet /home/shahov/Documents/SFU/OPPO/newssite-golang/internal/api
-go vet /home/shahov/Documents/SFU/OPPO/newssite-golang/internal/config
-go vet /home/shahov/Documents/SFU/OPPO/newssite-golang/internal/entities
-go vet /home/shahov/Documents/SFU/OPPO/newssite-golang/internal/provider
-go vet /home/shahov/Documents/SFU/OPPO/newssite-golang/internal/usecase
+go vet ./cmd
+go vet ./internal/api
+go vet ./internal/config
+go vet ./internal/entities
+go vet ./internal/provider
+go vet ./internal/usecase
 
 echo "Файлы проверены"
 

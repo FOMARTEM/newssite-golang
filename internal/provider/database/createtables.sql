@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS public.users
     name character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
     password text NOT NULL,
-    admin integer NOT NULL DEFAULT 0,
+    admin integer NOT NULL DEFAULT 1,
     PRIMARY KEY (id),
     CONSTRAINT uniq_email UNIQUE (email)
 );
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS public.posts
     body text NOT NULL,
     createdate date NOT NULL,
     updatedate date,
-    hidden integer, NOT NULL DEFAULT 0, 
+    hidden integer NOT NULL DEFAULT 0, 
     user_id integer NOT NULL,
     PRIMARY KEY (id)
 );

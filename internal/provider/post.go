@@ -26,6 +26,7 @@ func (p *Provider) InsertPost(post entities.Post) (*entities.Post, error) {
 		CreateDate: post.CreateDate,
 		UpdateDate: post.CreateDate,
 		UserId:     post.UserId,
+		Hide:       post.Hide,
 	}, nil
 }
 
@@ -70,6 +71,7 @@ func (p *Provider) SelectAllPosts() ([]*entities.Post, error) {
 	return posts, nil
 }
 
+// получение постов определённого пользователя
 func (p *Provider) SelectUserPosts(userId int) ([]*entities.Post, error) {
 	posts := []*entities.Post{}
 
@@ -99,8 +101,7 @@ func (p *Provider) SelectUserPosts(userId int) ([]*entities.Post, error) {
 
 // редактировние поста
 func (p *Provider) UpdatePostById(post entities.Post) (*entities.Post, error) {
-	var updatedPost entities.Post
-	_, err := p.conn.Query(
+	_, err := p.conn.Exec(
 		"CALL update_post($1, $2, $3, $4)",
 		post.ID, post.Name, post.Text, post.UpdateDate,
 	)
@@ -113,7 +114,7 @@ func (p *Provider) UpdatePostById(post entities.Post) (*entities.Post, error) {
 		return nil, err
 	}
 
-	return &updatedPost, nil
+	return &post, nil
 }
 
 // удаление поста
@@ -131,8 +132,9 @@ func (p *Provider) DeletePostById(id int) error {
 	return nil
 }
 
-func (p *Provider) HidePostById(id int, hide int, UpdateDate string) error {
-	_, err := p.conn.Query(
+// изменение видимости поста
+func (p *Provider) EditVisibilityById(id int, hide int, UpdateDate string) error {
+	_, err := p.conn.Exec(
 		"CALL update_post($1, $2, $3)",
 		id, hide, UpdateDate,
 	)

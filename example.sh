@@ -1,6 +1,7 @@
 # Примеры curl запросов для api
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDQzNDYsImlkIjoxM30.4tBJJCs-oQtqv2wQUp1KvYAR7Ip1YC1hiWaZrZQLzQ8" \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDgyNzcsImlkIjo3fQ.tCruIZWraEiUTe62B2Y9VDLkjvlRtjStKrnaQZndA8E" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
+
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ4MzIsImlkIjoxNH0.ASsWcFMzEj3sCJ6jUtK-9UnMs-o3njaz5U9om0BewyM"\
 
 # Работа с пользователем
 
@@ -12,11 +13,11 @@ curl -X POST  http://127.0.0.1:8081/signup \
 # Авторизация
 curl -X POST  http://127.0.0.1:8081/login \
  -H "Content-Type: application/json" \
- -d '{ "email" : "admin@mail.com", "password" : "123456789"}'
+ -d '{ "email" : "2@gmail.com", "password" : "12345678"}'
 
 # Получение профиля
 curl -X GET http://127.0.0.1:8081/profile \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDQzNDYsImlkIjoxM30.4tBJJCs-oQtqv2wQUp1KvYAR7Ip1YC1hiWaZrZQLzQ8"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
 
 # Обновление профиля
 # Поменять можно имя и пароль, в будущем добавится повторный ввод пароля
@@ -29,38 +30,83 @@ curl -X PUT http://127.0.0.1:8081/profile \
 
 # Изменение прав пользователя
 curl -X PUT http://127.0.0.1:8081/rules \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyMDgyNzcsImlkIjo3fQ.tCruIZWraEiUTe62B2Y9VDLkjvlRtjStKrnaQZndA8E" \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
  -H "Content-Type: application/json" \
- -d '{ "email" : "1@gmail.com", "adminrole": 7}'
+ -d '{ "email" : "2@gmail.com", "adminrole": 6}'
+
+
+
+
+
+
+
+
+
+
+
 
 # Работа с постами
 # В будущем будут добавлены права что бы только определённые пользователи могли создавать/редактировать/менять посты
 
 # Создание поста
 curl -X POST  http://127.0.0.1:8081/post \
- -H "Authorization: Bearer " \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
  -H "Content-Type: application/json" \
- -d '{ "title" : "", "body" : ""}'
+ -d '{ "title" : "Тестовый пост 2", "body" : "От админа с любовью. раз два три четыре пять вышел зайчик погулять"}'
 
 # Получение всех постов 
 curl -X GET  http://127.0.0.1:8081/posts
 
 # Получение поста по id 
 # Вместо id вставить id поста полученного при создании поста или получении всех постов
-curl -X GET http://127.0.0.1:8081/post/id \
- -H "Authorization: Bearer "
+curl -X GET http://127.0.0.1:8081/post/3 \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
+
+# Получение всех постов текущего пользователя
+curl -X GET http://127.0.0.1:8081/myposts \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
+
+# Получение всех постов определённого пользователя
+curl -X GET http://127.0.0.1:8081/userposts/3 \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
+
+# Сокрытие поста с ленты новостей
+curl -X PUT http://127.0.0.1:8081/hidepost/3 \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"
+ 
+
 
 # Обновление поста по id 
 # Вместо id вставить id поста полученного при создании поста или получении всех постов
 curl -X PUT http://127.0.0.1:8081/post/id \
- -H "Authorization: Bearer "\
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
  -H "Content-Type: application/json" \
- -d '{ "title" : "", "body" : ""}'
+ -d '{ "title" : "Пытаюсь изменить пост", "body" : "Мнооооооооооооооооооооооооооооооооого текста, даже очень"}'
 
 # Удаление поста по id 
 # Вместо id вставить id поста полученного при создании поста или получении всех постов
-curl -X DELETE http://127.0.0.1:8081/post/id \
- -H "Authorization: Bearer "
+curl -X DELETE http://127.0.0.1:8081/post/7 \
+ -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Работа с комментариями
 # Предполагается что front-end будет запрашивать отдельно посты, отдельно комментарии к нему для оптимизации

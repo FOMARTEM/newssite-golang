@@ -13,7 +13,7 @@ type Provider interface {
 	SelectUserPosts(userId int) ([]*entities.Post, error)
 
 	UpdatePostById(post entities.Post) (*entities.Post, error)
-	HidePostById(id int, hide int, UpdateDate string) error
+	EditVisibilityById(id int, hide int, UpdateDate string) error
 
 	DeletePostById(id int) error
 
