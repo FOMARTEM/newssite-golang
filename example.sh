@@ -1,7 +1,7 @@
 # Примеры curl запросов для api
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
+  -H "Authorization: Bearer "\
 
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ4MzIsImlkIjoxNH0.ASsWcFMzEj3sCJ6jUtK-9UnMs-o3njaz5U9om0BewyM"\
+  -H "Authorization: Bearer "\
 
 # Работа с пользователем
 

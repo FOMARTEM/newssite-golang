@@ -12,7 +12,7 @@ func (u *Usecase) CreateComment(comment entities.Comment) (*entities.Comment, er
 	}
 
 	if *adminRules < 1 {
-		return nil, entities.ErrCommentNotFound //поменять потом ошибку
+		return nil, entities.ErrCommentNotFound
 	}
 
 	createdComment, err := u.p.InsertComment(comment)
