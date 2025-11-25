@@ -11,6 +11,12 @@ go vet ./internal/usecase
 
 echo "Файлы проверены"
 
+echo "Запуск тестов"
+
+go test -v  ./internal/usecase/
+
+echo "Успешный успех"
+
 echo "Запуск сервера"
 
 cd cmd

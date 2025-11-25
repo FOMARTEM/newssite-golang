@@ -1,5 +1,5 @@
 # Примеры curl запросов для api
-  -H "Authorization: Bearer "\
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjcxMTk5MTUsImlkIjo3fQ.n0lCJMtwZ64UXXwTNlgkK5u5x4G8QppvLvl4r-LI3ck"\
 
   -H "Authorization: Bearer "\
 
@@ -13,7 +13,7 @@ curl -X POST  http://127.0.0.1:8081/signup \
 # Авторизация
 curl -X POST  http://127.0.0.1:8081/login \
  -H "Content-Type: application/json" \
- -d '{ "email" : "2@gmail.com", "password" : "12345678"}'
+ -d '{ "email" : "admin@mail.com", "password" : "123456789"}'
 
 # Получение профиля
 curl -X GET http://127.0.0.1:8081/profile \
@@ -50,9 +50,9 @@ curl -X PUT http://127.0.0.1:8081/rules \
 
 # Создание поста
 curl -X POST  http://127.0.0.1:8081/post \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjYyNzQ0MzIsImlkIjo3fQ.a1j1F4CrCXaVoh4EYpWTk__h9lqf47UydRxPv-ybekY"\
- -H "Content-Type: application/json" \
- -d '{ "title" : "Тестовый пост 2", "body" : "От админа с любовью. раз два три четыре пять вышел зайчик погулять"}'
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjcxMTk5MTUsImlkIjo3fQ.n0lCJMtwZ64UXXwTNlgkK5u5x4G8QppvLvl4r-LI3ck"\
+  -H "Content-Type: application/json" \
+  -d '{ "title" : "Тестовый пост сколько то там", "body" : "От админа с любовью. раз два три четыре пять вышел зайчик погулять"}'
 
 # Получение всех постов 
 curl -X GET  http://127.0.0.1:8081/posts
