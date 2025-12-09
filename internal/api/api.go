@@ -3,26 +3,29 @@ package api
 import (
 	"fmt"
 	"os"
+	"strings"
 
-	echojwt "github.com/labstack/echo-jwt/v4"
+	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 )
 
 type Server struct {
-	server  *echo.Echo
-	address string
+	server            *echo.Echo
+	address           string
+	commentStaticPath string
 
 	secretKey string
 
 	uc Usecase
 }
 
-func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress string) *Server {
+func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress string, imagePath string) *Server {
 	api := Server{
-		uc:        uc,
-		secretKey: secretKey,
+		uc:                uc,
+		secretKey:         secretKey,
+		commentStaticPath: commentStaticPath,
 	}
 
 	api.server = echo.New()
@@ -48,12 +51,29 @@ func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress s
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
 
+	//  немного изменили что бы можно было попроще дёргать ручки без токена
 	api.server.Use(echojwt.WithConfig(echojwt.Config{
 		SigningKey: []byte(secretKey),
 		Skipper: func(c echo.Context) bool {
-			if c.Path() == "/login" || c.Path() == "/signup" || c.Path() == "/posts" {
+
+			// Пути, которые игнорируют JWT
+			allowed := map[string]bool{
+				"/login":         true,
+				"/signup":        true,
+				"/posts":         true,
+				"/comment/image": true,
+			}
+
+			// Полное совпадение
+			if allowed[c.Path()] {
 				return true
 			}
+
+			// Обработка динамического параметра /comment/image/:id
+			if strings.HasPrefix(c.Path(), "/comment/image/") {
+				return true
+			}
+
 			return false
 		},
 	}))
@@ -81,6 +101,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress s
 	api.server.PUT("/comment/:id", api.UpdateComment)
 	api.server.DELETE("/comment/:id", api.DeleteComment)
 	api.server.DELETE("/comments/:id", api.DeleteComments)
+	api.server.GET("/comment/image/:id", api.GetCommentImage)
 
 	api.address = fmt.Sprintf("%s:%d", ip, port)
 

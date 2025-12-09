@@ -10,8 +10,9 @@ type Config struct {
 }
 
 type api struct {
-	SecretKey    string `yaml:"secret_key"`
-	FrontAddress string `yaml:"front_address"`
+	SecretKey         string `yaml:"secret_key"`
+	FrontAddress      string `yaml:"front_address"`
+	CommentStaticPath string `yaml:"image_path"`
 }
 
 type usecase struct {
