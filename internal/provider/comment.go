@@ -23,12 +23,14 @@ func (p *Provider) InsertComment(comment entities.Comment) (*entities.Comment, e
   return &comment, nil
 }
 
-func (p *Provider) GetCommentsForPost(post_id int, limit int, offset int) ([]*entities.Comment, error) {
+unc (p *Provider) GetCommentsForPost(post_id int, limit int, offset int) ([]*entities.Comment, error) {
   comments := []*entities.Comment{}
 
   rows, err := p.conn.Query(
-    "SELECT * FROM get_comments_by_post_id($1)",
+    "SELECT * FROM get_comments_by_post_id($1, $2, $3)",
     post_id,
+    limit,
+    offset,
   )
 
   if err != nil {

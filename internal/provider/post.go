@@ -49,7 +49,9 @@ func (p *Provider) SelectAllPosts(limit int, offset int) ([]*entities.Post, erro
   posts := []*entities.Post{}
 
   rows, err := p.conn.Query(
-    "SELECT * FROM get_posts()",
+    "SELECT * FROM get_posts($1, $2)",
+    limit,
+    offset,
   )
 
   if err != nil {
@@ -85,8 +87,10 @@ func (p *Provider) SelectUserPosts(userId int, limit int, offset int) ([]*entiti
   posts := []*entities.Post{}
 
   rows, err := p.conn.Query(
-    "SELECT * FROM get_user_posts($1)",
+    "SELECT * FROM get_user_posts($1, $2, $3)",
     userId,
+    limit,
+    offset,
   )
 
   if err != nil {
@@ -116,7 +120,6 @@ func (p *Provider) SelectUserPosts(userId int, limit int, offset int) ([]*entiti
 
   return posts, nil
 }
-
 // редактировние поста
 func (p *Provider) UpdatePostById(post entities.Post) (*entities.Post, error) {
   _, err := p.conn.Exec(
