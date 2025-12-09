@@ -1,5 +1,7 @@
 #!/bin/bash
 
+go mod tidy
+
 echo "Проверка кода при помощи go vet"
 
 go vet ./cmd
