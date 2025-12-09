@@ -3,29 +3,29 @@ package api
 import "github.com/FOMARTEM/newssite-golang/internal/entities"
 
 type Usecase interface {
-	//работа с User
-	CreateUser(user entities.User) (*entities.User, error)
-	CheckPasswordUser(user entities.User) (*bool, error)
-	SelectUserByID(id int) (*entities.User, error)
-	SelectUserByEmail(email string) (*entities.User, error)
-	UpdateAdminRules(email string, admin int) (*bool, error)
-	UpdateUser(user entities.User) (*entities.User, error)
-	DeleteUserById(id int) error
-	DeleteUserByEmail(email string) error
+  //работа с User
+  CreateUser(user entities.User) (*entities.User, error)
+  CheckPasswordUser(user entities.User) (*bool, error)
+  SelectUserByID(id int) (*entities.User, error)
+  SelectUserByEmail(email string) (*entities.User, error)
+  UpdateAdminRules(email string, admin int) (*bool, error)
+  UpdateUser(user entities.User) (*entities.User, error)
+  DeleteUserById(id int) error
+  DeleteUserByEmail(email string) error
 
-	//работа с Post
-	CreatePost(post entities.Post) (*entities.Post, error)
-	SelectPost(id int) (*entities.Post, error)
-	ListPosts() ([]*entities.Post, error)
-	ListUserPosts(userId int) ([]*entities.Post, error)
-	UpdatePost(post entities.Post, userId int) (*entities.Post, error)
-	DeletePost(id int, userId int) error
-	HidePost(postId int, userId int) error
+  //работа с Post
+  CreatePost(post entities.Post) (*entities.Post, error)
+  SelectPost(id int) (*entities.Post, error)
+  ListPosts(limit int, offset int) ([]*entities.Post, error)
+  ListUserPosts(userId int, limit int, offset int) ([]*entities.Post, error)
+  UpdatePost(post entities.Post, userId int) (*entities.Post, error)
+  DeletePost(id int, userId int) error
+  HidePost(postId int, userId int) error
 
-	//работа с Comment
-	CreateComment(comment entities.Comment) (*entities.Comment, error)
-	PostComments(post_id int) ([]*entities.Comment, error)
-	UpdateComment(comment entities.Comment) (*entities.Comment, error)
-	DeleteComment(id int) error
-	DeleteCommentsInPost(post_id int) error
+  //работа с Comment
+  CreateComment(comment entities.Comment) (*entities.Comment, error)
+  PostComments(post_id int, limit int, offset int) ([]*entities.Comment, error)
+  UpdateComment(comment entities.Comment) (*entities.Comment, error)
+  DeleteComment(id int) error
+  DeleteCommentsInPost(post_id int) error
 }
