@@ -25,7 +25,7 @@ func NewServer(ip string, port int, uc Usecase, secretKey string, frontAddress s
 	api := Server{
 		uc:                uc,
 		secretKey:         secretKey,
-		commentStaticPath: commentStaticPath,
+		commentStaticPath: imagePath,
 	}
 
 	api.server = echo.New()

@@ -13,8 +13,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-const commentStaticPath = "../static/comment"
-
 func (s *Server) CreateComment(e echo.Context) error {
 	var comment entities.Comment
 
@@ -154,7 +152,7 @@ func (s *Server) saveCommentImage(file *multipart.FileHeader, id int) error {
 	defer src.Close()
 
 	//на случай если нету папки
-	os.MkdirAll(commentStaticPath, 0755)
+	os.MkdirAll(s.commentStaticPath, 0755)
 
 	out, err := os.Create(dst)
 	if err != nil {
